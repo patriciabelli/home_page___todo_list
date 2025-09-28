@@ -9,10 +9,16 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: EditAppbarWidget(
-          saveAction: () {}, 
-          closeAction: () {}, 
+          saveAction: () {},
+          closeAction: () {},
           title: 'List Todo\'s',
-          ),
+        ),
+      ),
+      body: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(title: Text('item $index'));
+        },
       ),
     );
   }
