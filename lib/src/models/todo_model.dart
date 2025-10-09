@@ -23,4 +23,6 @@ class TodoModel {
       'completed': completed,
     };
   }
+
+  void fetchTodos() {}
 }
