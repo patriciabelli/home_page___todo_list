@@ -1,36 +1,40 @@
-
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:home_page___todo_list/src/repositories/todo_repository.dart';
 import 'package:mockito/mockito.dart';
+import 'package:home_page___todo_list/src/repositories/todo_repository.dart';
 
-class DioMock extends Mock implements Dio {
-  
-}
+class DioMock extends Mock implements Dio {}
 
 void main() {
   final dio = DioMock();
   final repository = TodoRepository(dio);
-  
- test('Deve trazer uma lista de TodoModel', () async {
 
-when(dio.get('any')).thenAnswer(
-  (_) async => Response(
-    data: jsonDecode(jsonData),
-    statusCode: 200,
-    requestOptions: RequestOptions(path: ''),
-  ),
-);
+  test('Deve retornar uma lista de TodoModel quando status for 200', () async {
+    when(
+      dio.get(
+        '',
+        options: anyNamed('options'),
+        queryParameters: anyNamed('queryParameters'),
+        cancelToken: anyNamed('cancelToken'),
+        onReceiveProgress: anyNamed('onReceiveProgress'),
+      ),
+    ).thenAnswer(
+      (_) async => Response(
+        data: jsonDecode(jsonData),
+        statusCode: 200,
+        requestOptions: RequestOptions(
+          path: 'https://jsonplaceholder.typicode.com/todos',
+        ),
+      ),
+    );
 
-
-   final list = await repository.fetchTodos();
-   expect(list[1].title, 'quis ut nam facilis et officia qui');
- }); 
+    final list = await repository.fetchTodos();
+    expect(list[1].title, "quis ut nam facilis et officia qui");
+  });
 }
 
-String jsonData = ''' 
+const jsonData = '''
 [
   {
     "userId": 1,
